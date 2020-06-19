@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <p v-html="message"></p>
+        <!-- tidak dapat berubah -->
+        <p v-once>{{ message }}</p>
+        <hr> 
+        <p v-text="message"></p>
+        <!-- sama dengan -->
+        <p>{{ message }}</p>
+        <!-- tampil atau hidden, data tipe boolean -->
+        <p v-show="displayMessage">{{ message }}</p>
+        <hr>
+        <div v-if="n === 'A'">
+            WOW A
+        </div>
+        <div v-else-if="n === 'B'">
+            B aja
+        </div>
+        <div v-else-if="n === 'C'">
+            C lah
+        </div>
+        <div v-else>
+            U DUMB!
+        </div>
+        <hr>
+        <button v-on:click="info('HALO b*tch')">Klik Kuy</button>
+        <hr>
+        <p>Button di klik {{counter}} kali.</p>
+        <button v-on:click="counter +=1">
+            Counter
+        </button>
+        <hr>
+        <a href="http://vuejs.org" v-on:click="link()"> VueJS</a>
+        <hr>
+        <!-- mencegah reload halaman saat event submit -->
+        <form v-on:submit.prevent="onSubmit"></form>
+        <!-- ketika ditekan enter maka akan menjalankan fungsi submit -->
+        <input v-on:keyup.enter="info('Terima kasih ' + $event.target.value)">
+        <!-- Shift + Click -->
+        <button v-on:click.ctrl="info('hola')">
+        SHIFT + CLICK
+        </button>
+        <!-- <button @click></button> -->
+        <div v-bind:style="{size: 10 + 'px'}">
+            <img v-bind:src="imageSrc">
+        </div>
+
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+               message : 'Daffa Akbar', 
+               displayMessage :false,
+               n: 'E',
+               counter: 0,
+               imageSrc: '/newvue/img/kahoot.jpg',
+            },
+            methods: {
+                info (text){
+                    alert(text)
+                },
+                link(){
+                    alert('Go to LINK')
+                }
+            },
+
+        })
+        setTimeout(() => {
+            vm.imageSrc = '/newvue/img/trimurti.gif'
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <style>
+        .title{
+            color:greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1 v-bind:class="classH1">{{message}}</h1>
+        <p>{{pet}}</p>
+        <hr>
+        <h2>{{counter}}</h2>
+        <button onclick="vm.incerement()"> Tambah</button>
+        <hr>
+        <p>{{'Nama saya ' + fullName | upper }}</p>
+        <hr>
+        <h3>{{price | formatCurrency('USD')}}</h3>
+        <h3>{{price | formatCurrency('IDR')}}</h3>
+        <hr>
+        <h1>Upper :{{message | upper}}</h1>
+        <h1>reverse :{{message | reverse}}</h1>
+        <h1>upper n reverse : {{message | upper | reverse}}</h1>
+    </div>
+    <script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message : 'Hellow', //string
+            age : 23, //integer
+            gender : true, //boolean
+            // hobby : [swimming, coding], //array
+            pet : {
+                1: 'Cat',
+                2: 'Owl',
+                3: 'ferret'
+            }, //object
+            classH1: 'title',
+            counter: 0,
+            firstName : 'Daffa',
+            lastName: 'Akbar',
+            price: 1000000,
+        },
+        methods: {
+            incerement(){
+                this.counter++
+            }
+        },
+        computed: {
+            fullName(){
+                return this.firstName + ' ' + this.lastName
+            }
+        },
+        filters: {
+            upper (text){
+                return text.toUpperCase()
+            },
+            formatCurrency (value, currency) {
+                var formatter = new Intl.NumberFormat('id-ID', {
+                    style : 'currency',
+                    currency: currency,
+                    minimumFractionDigits: 2,
+                });
+                return formatter.format(value)
+            },
+            reverse (text){
+                return text.split('').reverse().join('')
+            }
+        },
+
+    })
+    </script>
+</body>
+</html>

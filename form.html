@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <!-- Tipe Text -->
+            <input type="text" name="title" :value="title" @input="title = $event.target.value">
+            {{title}}
+            <hr>
+            <input type="text" name="firstName" v-model="firstName" placeholder="Masukan nama depan">
+            {{firstName}}
+            <br>
+            <textarea name="lastName" v-model="lastName" placeholder="Masukan nama Akhir" cols="30" rows="10"></textarea>
+            {{lastName}}
+            <hr>
+            <br>
+            <input type="number" name="price" v-model.number="price">
+            <br>{{price}}<br>
+            <input type="text" name="titleBook" v-model.trim="titleBook" placeholder="Masukan judul buku">
+            <br>
+            <p>"{{titleBook}}"</p>
+            <hr>
+            <br>
+
+            <!-- Radio Button -->
+            Paket Data kartu 3 <br>
+            <input type="radio" name="dataA" value="3GB" v-model="paket">
+            <label for="dataA">3 GB full day</label>
+            <br>
+            <input type="radio" name="dataB" value="10GB" v-model="paket">
+            <label for="dataB">10 GB </label>
+            <br>
+            <input type="radio" name="dataC" value="50GB" v-model="paket">
+            <label for="dataB">50GB</label>
+            <br>
+            <span>Pilihan paketan 3 : {{paket}}</span>
+            <hr><br>
+            
+            <!-- select -->
+            <select name="category" v-model="category">
+                <option disabled value="">Pilih satu</option>
+                <option value="01">Laravel</option>
+                <option value="02">Vue</option>
+                <option value="03">React</option>
+            </select><br>
+            <span>Pilihan indeks : {{category}}</span>
+            <hr><br>
+            
+            <!-- Boolean -->
+            <p>Gender :</p>
+            <input type="checkbox" name="checkbox" v-model="gender">
+            <label for="checkbox">{{gender}}</label>
+            <br>
+            <select name="gender" v-model="gender">
+                <option value="false">Wanita</option>
+                <option value="true">Pria</option>
+            </select>
+            <span>Selected: {{ gender }}</span>
+            <hr><br>
+            <!-- Array Checkbox Boolean -->
+            <p>Hobby</p><br>
+            <input type="checkbox" name="hobby1" value="Running from Reality" v-model="hobby">
+            <label for="hobby1">Running from Reality</label><br>
+            <input type="checkbox" name="hobby2" value="Nothing to do" v-model="hobby">
+            <label for="hobby2">Nothing to do</label><br>
+            <input type="checkbox" name="hobby3" value="Imagination" v-model="hobby">
+            <label for="hobby3">Imagination</label><br>
+            <br>
+            <span>Pilihan Hobby: {{hobby}}</span>
+            <br>
+            <br>
+            <select v-model="categories" multiple>
+                <option value="01">Graphics Programming</option>
+                <option value="02">Mobile Application Development</option>
+                <option value="03">Virtual and Augmented Reality</option>
+            </select>
+            <span>Selected: {{ categories }}</span>
+            <br><br>
+            <select name="skincare" v-model="skincare" multiple>
+                <option v-for="skincareOption in skincareOptions" :value="skincareOption.value"> {{skincareOption.text}}</option>
+            </select>
+            <span>selected : {{skincare}}</span>
+        </form>
+        <!-- Filtering Data LIST -->
+        <input type="text" v-model="keyword" placeholder="Ketikan kata kunci">
+        <ul>
+            <li v-for="(book, index) of filterBooks" ::key="index">
+                {{book}}
+            </li>
+        </ul>
+        <br><hr><hr>
+        <!-- HANDLING SUBMIT FORM -->
+    </div>
+    <script>
+        var vm = new Vue({
+            el : '#app',
+            data : {
+                title : "Cara Terbang",
+                firstName : "",
+                lastName : "",
+                titleBook : "",
+                price : "",
+                paket: "",
+                category: "",
+                gender: false,
+                hobby: [],
+                categories: [],
+                skincare: [],
+                skincareOptions: [
+                    {
+                        text: "Nivea",
+                        value: '01'
+                    },
+                    {
+                        text: 'Cosrx',
+                        value: '02'
+                    },
+                    {
+                        text: 'SK-2',
+                        value: '03'
+                    }
+                ],
+                keyword: '',
+                books: [
+                    'Programming',
+                    'Cara menjadi burung',
+                    'cara menjadi sukses',
+                    'Komik shincan',
+                    'Komik naruto'
+                ]
+            },
+            computed: {
+                filterBooks() {
+                    return this.books.filter((book)=>{
+                        return book.includes(this.keyword)
+                    })
+                }
+            },
+        })
+    </script>
+</body>
+</html>

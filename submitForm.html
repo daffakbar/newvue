@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <style>
+        form {
+         border: 1px solid #ddd;
+         padding:5px;
+         width:225px;
+         background: #efefef;
+        }
+        label{
+         display: block;
+         margin-top: 5px;
+        }
+        input, textarea, select, option {
+         min-width: 200px;
+        }
+    </style>
+        
+</head>
+<body>
+    <div id="app">
+        <form ref="formBook" @submit.prevent="submitForm($event)" action="" method="post">
+            <p v-if="errors.length">
+                <b>Please correct the following error(s) :</b>
+                <ul>
+                    <li v-for="error in errors">{{error}}</li>
+                </ul>
+            </p>
+            <label for="title">Title :</label>
+            <input type="text" ref="title" name="title" v-model="title">
+
+            <label for="description">Description: </label>
+            <textarea v-model="description" ref="description" name="description" cols="30" rows="10"></textarea>
+
+            <label for="authors">Authors</label>
+            <input type="text" ref="authors" name="authors" v-model="authors">
+
+            <label for="price">Price :</label>
+            <input type="number" v-model.number="price" ref="price" name="price">
+
+            <label for="categorires">Categories</label>
+            <select v-model="categories" ref="categories" name="categories" multiple>
+                <option v-for="option in options" :value="option.value">
+                    {{option.text}}
+                </option>
+            </select>
+            <label for=""></label>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        var vm = new Vue ({
+            el: '#app',
+            data: {
+                title: 'Google Glass with VueJS',
+                description: 'Control Google Glass with VueJS',
+                authors: 'Hafid',
+                price: 75000,
+                categories: [],
+                options: [
+                    {text: 'How to fly!', value: '01'},
+                    {text: 'success is success!', value: '02'},
+                    {text: 'How to train ur Dragon!', value: '03'}
+                ],
+                errors:[]                
+            },
+            methods: {
+                submitForm(event){
+                    // console.log(event)
+                    // let error = 0
+                    this.errors = []
+                    if (this.title.length < 3) {
+                        // error++
+                        this.errors.push('title Min 3 Karakter')
+                        this.$refs.title.select()
+                    } if (this.description.length>500) {
+                        // error++
+                        this.errors.push('Description Maximal 500 karakter')
+                        this.$refs.description.select()
+                    } if (this.authors.length < 3) {
+                        // error++
+                        this.errors.push('Author Min 3 Karakter ')
+                        this.$refs.authors.select()
+                    } if (this.price < 0) {
+                        // error++
+                        this.errors.push('price tidak boleh minus!')
+                        this.$refs.price.select()
+                    } if (this.categories.length === 0) {
+                        // error++
+                        this.errors.push('pilih Minimal 1 kategori!')
+                        this.$refs.categories.focus()
+                    }
+                    if (this.errors.length === 0) {
+                        this.errors.push('Terima kasih telah mengisi data dengan benar!')
+                    }
+                    event.preventDefault()
+                }
+            },
+        })
+    </script>
+</body>
+</html>

@@ -42,12 +42,15 @@
             <label for="price">Price :</label>
             <input type="number" v-model.number="price" ref="price" name="price">
 
-            <label for="categorires">Categories</label>
+            <label for="categories">Categories</label>
             <select v-model="categories" ref="categories" name="categories" multiple>
                 <option v-for="option in options" :value="option.value">
                     {{option.text}}
                 </option>
             </select>
+            <label for="">Cover :</label>
+            <input type="file" name="cover" ref="cover">
+
             <label for=""></label>
             <input type="submit" value="Submit">
         </form>
@@ -67,6 +70,7 @@
                     {text: 'success is success!', value: '02'},
                     {text: 'How to train ur Dragon!', value: '03'}
                 ],
+                cover: [],
                 errors:[]                
             },
             methods: {
@@ -97,6 +101,41 @@
                     }
                     if (this.errors.length === 0) {
                         this.errors.push('Terima kasih telah mengisi data dengan benar!')
+                        
+                        //CARA PANJANG
+                        //persiapkan data
+                        // let formData = new FormData()
+                        //field ambil data File 
+                        // let cover = this.$refs.cover.files[0]
+                        // formData.append('title', this.title)
+                        // formData.append('description', this.description)
+                        // formData.append('authors', this.authors)
+                        // formData.append('price', this.price)
+                        // formData.append('categories', this.categories)
+                        // formData.append("cover", cover);
+
+                        //CARA PENDEK *S&K field pada form harus ada atribut "NAME"!!
+                        //periapkan data
+                        let formBook = this.$refs.formBook
+                        formData = new FormData(formBook);
+                        
+                        //kirim data ke server
+                        let xhttp = new XMLHttpRequest() //Create objek XMLHttp
+
+                        //definisikan fungsi ketika terjadi perubahan state
+                        xhttp.onreadystatechange = function(){
+                            //state ini menunjukan data terkirim dan diterima server dgn baik
+
+                            if(this.readyState == 4 && this.status == 200) {
+                                //respon text dari server
+                                console.log(this.responseText)
+                            }
+                        }
+
+                        //sesuaikan dgn lokasi index.php 
+                        xhttp.open("POST", "http://localhost/index.php", true)
+
+                        xhttp.send(formData) 
                     }
                     event.preventDefault()
                 }
